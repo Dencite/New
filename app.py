@@ -1,15 +1,17 @@
 import os
 import requests
 from flask import Flask, jsonify, request
+from flask_cors import CORS  # 👈 Import CORS
 
 app = Flask(__name__)
+CORS(app)  # 👈 Enable CORS for all routes
 
-API_TOKEN = os.environ.get("CR_API_TOKEN")  # Set this in Render Dashboard
+# Set your API token directly here
+API_TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6IjU2NjQ2YzhjLTk1ZjQtNDNjNS05MTI0LWQ3YjcxMDQ1MDUzYiIsImlhdCI6MTc1MTk3MDA0Niwic3ViIjoiZGV2ZWxvcGVyLzQ3MTBkOGUwLTY0ZjYtYzA2Ny0xZTI4LTQwOGU1OTA5YzQ0YiIsInNjb3BlcyI6WyJyb3lhbGUiXSwibGltaXRzIjpbeyJ0aWVyIjoiZGV2ZWxvcGVyL3NpbHZlciIsInR5cGUiOiJ0aHJvdHRsaW5nIn0seyJjaWRycyI6WyIxMDYuMjA1LjE3MS4yNyJdLCJ0eXBlIjoiY2xpZW50In1dfQ.IpJ1LyOzT6OzfiXYPCrkySh_u10iNPw5zD4EJ52dzZCWtKbFG4rukYEDXAi8DNYAiInW81LK_mkukNqJ2tIOEA"  # 👈 Replace this with your actual token
 
 HEADERS = {
     "Authorization": f"Bearer {API_TOKEN}"
 }
-
 
 @app.route("/get-deck", methods=["POST"])
 def get_deck():
@@ -17,7 +19,6 @@ def get_deck():
         data = request.get_json()
         medals = int(data.get('medals'))
 
-        # Step 1: Get leaderboard players
         CR_API_BASE_URL = "https://api.clashroyale.com/v1"
         leaderboard_url = f"{CR_API_BASE_URL}/locations/global/pathoflegend/players?limit=1000"
         res = requests.get(leaderboard_url, headers=HEADERS, timeout=10)
@@ -38,7 +39,7 @@ def get_deck():
                 battle_res = requests.get(battle_url, headers=HEADERS, timeout=10)
 
                 if battle_res.status_code != 200:
-                    continue  # Skip failed player
+                    continue
 
                 battles = battle_res.json()
                 for battle in battles:
@@ -64,7 +65,6 @@ def get_deck():
 @app.route("/")
 def home():
     return "Backend is Running"
-
 
 if __name__ == "__main__":
     app.run()
