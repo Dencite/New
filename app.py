@@ -41,7 +41,7 @@ def get_deck():
                 print('found player with exact medals')
                 tag = player["tag"].replace("#", "%23")
                 battle_url = f"https://api.clashroyale.com/v1/players/{tag}/battlelog"
-                battle_res = requests.get(battle_url, headers=HEADERS, timeout=10)
+                battle_res = requests.get(battle_url, headers=HEADERS, timeout=30)
 
                 if battle_res.status_code != 200:
                     return jsonify({"error": "Battle log fetch failed"}), 500
