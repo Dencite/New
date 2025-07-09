@@ -82,7 +82,7 @@ input[type=number] {
       resultsEl.innerHTML = "<p>Loading...</p>";
 
       try {
-        const res = await fetch("http://new-x635/get-deck", {
+        const res = await fetch("http://localhost:5000/get-deck", {
           method: "POST",
 headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ medals: parseInt(medals) })
