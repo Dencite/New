@@ -4,7 +4,7 @@ from flask import Flask, jsonify, request
 
 app = Flask('name')
 
-API_TOKEN = ""   # Set this in Render Dashboard
+API_TOKEN = os.environ.get("API_TOKEN")# Set this in Render Dashboard
 
 HEADERS = {
     "Authorization": f"Bearer {API_TOKEN}"
