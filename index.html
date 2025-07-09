@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -49,14 +50,29 @@
       padding: 5px 0;
       border-bottom: 1px solid #333;
     }
+
+    input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+input[type=number] {
+    -moz-appearance:textfield; /* Firefox */
+    appearance: textfield; /* Non-standard */
+}
   </style>
 </head>
 <body>
 
   <h2>Path of Legend Matchmaking Viewer</h2>
+  <div style="display: flex; justify-content: center">
   <input type="number" id="medals" placeholder="Enter medals (e.g. 3926)" />
   <button onclick="fetchMatches()">Fetch Matches</button>
 
+  </div>
+ 
   <div id="results"></div>
 
   <script>
@@ -66,9 +82,9 @@
       resultsEl.innerHTML = "<p>Loading...</p>";
 
       try {
-        const res = await fetch("https://new-x635.onrender.com/get-deck", {
+        const res = await fetch("http://localhost:5000/get-deck", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ medals: parseInt(medals) })
         });
 
@@ -76,16 +92,22 @@
         resultsEl.innerHTML = "";
 
         if (!data.matching_players || data.matching_players.length === 0) {
-          resultsEl.innerHTML = "<p>No matching players found.</p>";
-          return;
+            if (data.error) {
+              resultsEl.innerHTML = `<p style="color: red;">Error: ${data.error}</p>`;
+            } else {
+              resultsEl.innerHTML = "<p>No matching players found.</p>";
+            }
+            return;
         }
+
+        console.log({data, a: data.matching_players});
 
         data.matching_players.forEach(playerObj => {
           const block = document.createElement("div");
           block.className = "player-block";
 
           const title = document.createElement("h3");
-          title.innerText = playerObj.player;
+          title.innerText = playerObj.player_name;
           block.appendChild(title);
 
           const ul = document.createElement("ul");
