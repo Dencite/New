@@ -1,10 +1,10 @@
-import os
+
 import requests
 from flask import Flask, jsonify, request
 
 app = Flask('name')
 
-API_TOKEN = os.environ.get("API_TOKEN")# Set this in Render Dashboard
+API_TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6IjU2NjQ2YzhjLTk1ZjQtNDNjNS05MTI0LWQ3YjcxMDQ1MDUzYiIsImlhdCI6MTc1MTk3MDA0Niwic3ViIjoiZGV2ZWxvcGVyLzQ3MTBkOGUwLTY0ZjYtYzA2Ny0xZTI4LTQwOGU1OTA5YzQ0YiIsInNjb3BlcyI6WyJyb3lhbGUiXSwibGltaXRzIjpbeyJ0aWVyIjoiZGV2ZWxvcGVyL3NpbHZlciIsInR5cGUiOiJ0aHJvdHRsaW5nIn0seyJjaWRycyI6WyIxMDYuMjA1LjE3MS4yNyJdLCJ0eXBlIjoiY2xpZW50In1dfQ.IpJ1LyOzT6OzfiXYPCrkySh_u10iNPw5zD4EJ52dzZCWtKbFG4rukYEDXAi8DNYAiInW81LK_mkukNqJ2tIOEA"# Set this in Render Dashboard
 
 HEADERS = {
     "Authorization": f"Bearer {API_TOKEN}"
